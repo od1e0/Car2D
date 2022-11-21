@@ -3,6 +3,8 @@ using Game;
 using Profile;
 using UnityEngine;
 using Features.Shed;
+using Features.Fight;
+using Features.Rewards;
 
 internal class MainController : BaseController
 {
@@ -11,6 +13,9 @@ internal class MainController : BaseController
 
     private MainMenuController _mainMenuController;
     private SettingsMenuController _settingsMenuController;
+    private RewardController _rewardController;
+    private StartFightController _startFightController;
+    private FightController _fightController;
     private GameController _gameController;
 
     private ShedContext _shedContext;
@@ -47,8 +52,15 @@ internal class MainController : BaseController
             case GameState.Shed:
                 _shedContext = new ShedContext(_placeForUi, _profilePlayer);
                 break;
+            case GameState.DailyReward:
+                _rewardController = new RewardController(_placeForUi, _profilePlayer);
+                break;
             case GameState.Game:
                 _gameController = new GameController(_placeForUi, _profilePlayer);
+                _startFightController = new StartFightController(_placeForUi, _profilePlayer);
+                break;
+            case GameState.Fight:
+                _fightController = new FightController(_placeForUi, _profilePlayer);
                 break;
         }
     }
@@ -57,6 +69,9 @@ internal class MainController : BaseController
     {
         _mainMenuController?.Dispose();
         _settingsMenuController?.Dispose();
+        _rewardController?.Dispose();
+        _startFightController?.Dispose();
+        _fightController?.Dispose();
         _gameController?.Dispose();
 
         _shedContext?.Dispose();
